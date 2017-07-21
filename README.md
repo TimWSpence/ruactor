@@ -1,8 +1,6 @@
 # Ruactor
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ruactor`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A simple actors implementation in Ruby.
 
 ## Installation
 
@@ -22,7 +20,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class Foo
+  include Ruactor::Actor
+
+  def foo(arg)
+    "#{:foo} #{arg}"
+  end
+end
+
+x = Foo.new
+x.send! :foo, :bar  #asynchronous execution - will occur in another thread at some point in the future
+```
 
 ## Development
 
@@ -41,3 +50,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 ## Code of Conduct
 
 Everyone interacting in the Ruactor project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/ruactor/blob/master/CODE_OF_CONDUCT.md).
+
+## Alternatives
+
+Conceptually similar to [Celluloid](https://github.com/celluloid/celluloid). Obviously Celluloid is a much larger project with much more development effort put into it. It's main drawback is it's thread-per-actor model, which doesn't perform well on MRI with it's green threads and GIL. For that reason, I prefer Ruactor's model of adding asynchronous calls to a queue which is dispatched by a small threadpool instead.
