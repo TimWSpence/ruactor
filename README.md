@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TimWSpence/ruactor.svg?branch=master)](https://travis-ci.org/TimWSpence/ruactor)
+
 # Ruactor
 
 A simple actors implementation in Ruby.
