@@ -5,8 +5,8 @@ require 'singleton'
 module Ruactor
   module Actor
 
-    def send! (name, *args)
-      Dispatcher.instance.queue << [self, name, *args]
+    def send! (name, *args, &block)
+      Dispatcher.instance.queue << [self, name, args, block]
     end
 
   end
@@ -29,8 +29,8 @@ module Ruactor
           5.times do
             thread = Thread.new do
               loop do
-                obj, method, *args = @queue.pop
-                obj.send method, *args
+                obj, method, args, block = @queue.pop
+                obj.send method, *args, &block
               end
             end
             @threads << thread

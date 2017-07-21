@@ -21,7 +21,37 @@ RSpec.describe Ruactor do
 
     x = Test.new
     x.send! :foo
-    expect(Ruactor::Dispatcher.instance.queue.pop).to eq([x, :foo])
+    expect(Ruactor::Dispatcher.instance.queue.pop).to eq([x, :foo, [], nil])
+  end
+
+  it "executes tasks with blocks" do
+    x = [1,2,3]
+    x.singleton_class.class_eval do
+      include Ruactor::Actor
+    end
+    x.send! :map! do |c|
+      c*2
+    end
+    Ruactor::Dispatcher.instance.start
+    sleep 2
+    Ruactor::Dispatcher.instance.stop
+    expect(x).to eq([2,4,6])
+  end
+
+  it "executes tasks with arguments and blocks" do
+    x = [1,2,3]
+    x.singleton_class.class_eval do
+      include Ruactor::Actor
+    end
+    x.send! :instance_exec, 1  do |i|
+      map! do |j|
+        i+j
+      end
+    end
+    Ruactor::Dispatcher.instance.start
+    sleep 2
+    Ruactor::Dispatcher.instance.stop
+    expect(x).to eq([2,3,4])
   end
 
   it "executes tasks in the queue" do
@@ -31,7 +61,7 @@ RSpec.describe Ruactor do
     end
     x.invoked = false
 
-    Ruactor::Dispatcher.instance.queue << [x, :invoked=, true]
+    Ruactor::Dispatcher.instance.queue << [x, :invoked=, true, nil]
     Ruactor::Dispatcher.instance.start
     sleep 2
     Ruactor::Dispatcher.instance.stop
