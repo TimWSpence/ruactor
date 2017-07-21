@@ -1,5 +1,17 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.4.0
-before_install: gem install bundler -v 1.15.1
+- 2.4.0
+before_install: gem install bundler -v 1.13.6
+scripts:
+- bundle exec rake
+- bundle exec rake build
+deploy:
+  skip_cleanup: true
+  provider: rubygems
+  api_key:
+    secure: dTHNfvirdX1FkjVUtN8NlF5Wm0X0iB6RKFo4uGa714RJkmYTdB5+AVMYCRc1KCl9YksG+7wgTU9kttsw0jZ6KMCyo7j1+BwPHNVX+UBNiMV64VjW+V2nw5qFt12CRjGMNgtUQD0/ISq5VbYkSeM2zlDFutKw5Mkcsym6QW+85FqhaQbQ/45cRCZxuMTzcIf8mXaP7PWEpZ/fzWKyxmDbjrE/mxViAxJazzCyOdL8qTvNoGAsHwk2C5siM7x1BXS2R+fTcS7zWFAWkObPe/U5E0UdXFDB8bTCUZDXx3hca/uLmMUpOVWKEwXYFolSEZG4TrSTq/+dnC0SkQpwhwfaRB942Iirgi5kMNMwtuxWeP97iz2kSRMCVu+MZw5fMu63IDj+H6kI3lHilasBstF/wXkl+5GJiYAahFWMKPQJqV+iGja/Ykf+hxTLWFBfBzxz6IrB0WRaoWv0GCsCjNLVCVYTYKX7IXkIP6Ez1dGkZRUivGiSrpVGuNIBQ3D0xPDvAwTHl6cvUD5AZbXUxzPNbP/Y9ASOeuj+ikRpSxQ4eFcPpG2/Xl6VWchr1vt089BMg/y6lWynqlIg0fgO32b9ZJfS16PO2OV7GCwGRf4CVMIocC/iAxNN0EJxUlb5XB18UMLsk61RcacZ3LBVDHIryHPMyeDRtAHm74CPB3bSVxg=
+  gem: ruactor
+  on:
+    tags: true
+    all_branches: true
