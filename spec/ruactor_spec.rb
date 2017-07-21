@@ -1,6 +1,11 @@
 require "spec_helper"
 
 RSpec.describe Ruactor do
+
+  before(:each) do
+    Ruactor::Dispatcher.instance.stop
+  end
+
   it "has a version number" do
     expect(Ruactor::VERSION).not_to be nil
   end
@@ -32,6 +37,14 @@ RSpec.describe Ruactor do
     Ruactor::Dispatcher.instance.stop
 
     expect(x.invoked).to be(true)
+  end
+
+  it "can start and stop the dispatcher" do
+    expect(Ruactor::Dispatcher.instance.stopped?).to be(true)
+    Ruactor::Dispatcher.instance.start
+    expect(Ruactor::Dispatcher.instance.started?).to be(true)
+    Ruactor::Dispatcher.instance.stop
+    expect(Ruactor::Dispatcher.instance.stopped?).to be(true)
   end
 
 end
